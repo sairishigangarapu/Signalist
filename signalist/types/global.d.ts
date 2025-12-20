@@ -1,3 +1,5 @@
+declare module 'nodemailer';
+
 declare global {
     type SignInFormData = {
         email: string;

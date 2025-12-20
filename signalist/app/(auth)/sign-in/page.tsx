@@ -1,10 +1,15 @@
 'use client'
-import React from 'react'
+
 import { useForm } from "react-hook-form"
 import InputField from '@/components/Forms/InputField';
 import FooterLink from '@/components/Forms/FooterLink';
+import {signInWithEmail} from "@/lib/actions/auth.actions";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 function SignIn() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -19,9 +24,13 @@ function SignIn() {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      console.log(data)
+      const result = await signInWithEmail(data);
+      if(result.success) router.push('/');
     } catch (e) {
-      console.log(e)
+      console.error(e);
+      toast.error('Sign in failed', {
+        description: e instanceof Error ? e.message : 'Failed to sign in.'
+      })
     }
   }
 
@@ -53,9 +62,9 @@ function SignIn() {
         error={errors.password}
         validation={{ required: 'Password is required', minLength: { value: 8, message: 'Password must be at least 8 characters' } }}
       />
-      <button type="submit" className="yellow-btn w-full" disabled={isSubmitting}>
+      <Button type="submit" className="yellow-btn w-full" disabled={isSubmitting}>
         {isSubmitting ? 'Signing In...' : 'Sign In'}
-      </button>
+      </Button>
       <FooterLink text="Don't have an account?" linkText="Sign Up" href="/sign-up" />
     </form>
   )
