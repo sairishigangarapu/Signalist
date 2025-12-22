@@ -1,96 +1,35 @@
 # 📈 Signalist
 
-A modern Next.js application to track your beloved stocks with real-time updates and intuitive interface.
+![Next.js](https://img.shields.io/badge/Next.js-15.1-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38b2ac?style=for-the-badge&logo=tailwind-css)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## 🚀 Features
-
-- **Stock Tracking**: Monitor your favorite stocks in real-time
-- **Modern UI**: Built with Next.js 15 and React 19
-- **Responsive Design**:  Fully responsive interface with Tailwind CSS
-- **Type-Safe**: Written in TypeScript for better code quality and developer experience
-- **Component Library**: Utilizes shadcn/ui for beautiful, accessible components
-
-## 🛠️ Tech Stack
-
-- **Framework**: [Next.js](https://nextjs.org/) 15.1.0
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-
-## 📋 Prerequisites
-
-Before you begin, ensure you have the following installed: 
-- Node.js (v18 or higher)
-- npm or yarn package manager
-
-## 🔧 Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/sairishigangarapu/Signalist.git
-cd Signalist/signalist
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application. 
-
-## 📦 Available Scripts
-
-- `npm run dev` - Start the development server
-- `npm run build` - Build the application for production
-- `npm run start` - Start the production server
-- `npm run lint` - Run ESLint to check code quality
-
-## 🏗️ Project Structure
-
-```
-signalist/
-├── app/              # Next.js app directory
-├── components/       # React components
-├── hooks/           # Custom React hooks
-├── lib/             # Utility functions and libraries
-├── public/          # Static assets
-└── ... config files
-```
-
-## 🎨 Customization
-
-The project uses Tailwind CSS for styling. You can customize the theme by editing:
-- `tailwind.config.ts` - Tailwind configuration
-- `app/globals.css` - Global styles
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👤 Author
-
-**Sai Rishi Gangarapu**
-- GitHub: [@sairishigangarapu](https://github.com/sairishigangarapu)
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!  Feel free to check the issues page. 
-
-## ⭐ Show your support
-
-Give a ⭐️ if this project helped you! 
+> **A high-performance financial analytics dashboard leveraging the Next.js 15 App Router and React Server Components (RSC) for sub-second data visualization.**
 
 ---
 
-Built with ❤️ using Next.js
+## 🏗 System Architecture
+
+Signalist is built on a **modern hybrid architecture**, utilizing Server-Side Rendering (SSR) for initial layout delivery and Client-Side rendering for real-time market data ingestion.
+
+```mermaid
+graph TD
+    User[User Client] -->|HTTP Request| CDN[Vercel Edge Network]
+    CDN -->|Cached Static Assets| User
+    CDN -->|Server Request| AppServer[Next.js 15 App Server]
+    
+    subgraph "Server Layer (RSC)"
+        AppServer -->|Hydration| Layout[Root Layout]
+        AppServer -->|SSR| Metadata[SEO & Meta Tags]
+    end
+
+    subgraph "Client Layer (Interactive)"
+        Layout -->|Render| Dashboard[Dashboard UI]
+        Dashboard -->|Fetch| MarketAPI[Market Data Provider]
+        MarketAPI -->|Stream| Ingest[Data Ingestion Engine]
+        Ingest -->|State Update| GlobalState[React State / Store]
+        GlobalState -->|Re-render| Charts[Recharts / Visuals]
+        GlobalState -->|Log| ActivityLog[System Event Log]
+    end
