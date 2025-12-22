@@ -14,7 +14,7 @@ function NavItems() {
             <Link href={item.href} className={`hover:text-yellow-500 transition-colors ${
                 pathname === item.href ? 'text-gray-100':''
             }`}>
-            {item.title}
+            {item.label}
             </Link>
         </li>
       ))}
