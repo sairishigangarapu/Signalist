@@ -2,7 +2,7 @@
 
 import { connectToDatabase } from '@/database/mongoose';
 import { Watchlist } from '@/database/models/watchlist.model';
-import { auth } from "@/lib/better-auth/auth";
+import { getAuth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 
 export async function getWatchlistSymbolsByEmail(email: string): Promise<string[]> {
@@ -30,6 +30,7 @@ export async function getWatchlistSymbolsByEmail(email: string): Promise<string[
 }
 
 export async function toggleWatchlistItem(symbol: string, company: string): Promise<{ isInWatchlist: boolean }> {
+  const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
   const email = session?.user?.email;
 
