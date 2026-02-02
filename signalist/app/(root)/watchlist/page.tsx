@@ -1,10 +1,11 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
 import { MARKET_DATA_WIDGET_CONFIG } from "@/lib/constants";
 import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
-import { auth } from "@/lib/better-auth/auth";
+import { getAuth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 
 async function WatchlistPage() {
+  const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
   const email = session?.user?.email || "";
 
